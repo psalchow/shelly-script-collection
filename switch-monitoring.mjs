@@ -132,7 +132,7 @@ let handleSwitchStatusEvent = function(switchState) {
     desiredInputState = switchState;
     currentTimer = Timer.set(CONFIG.GRACE_PERIOD_MS, false, function() {
         if (CONFIG.DEBUG) {
-            print("Timeout: Input did not switch in time");
+            print("Timeout: Input did not change in time");
         }
         Shelly.call("Input.GetStatus", {'id': CONFIG.INPUT_ID}, function(res) {
             if (res.state !== desiredInputState) {
@@ -149,6 +149,11 @@ let handleSwitchStatusEvent = function(switchState) {
                     Shelly.call("Switch.set", {'id': CONFIG.SWITCH_ID, 'on': false});
                     sendSafetyShutoff();
                 }
+            } else {
+                if (CONFIG.DEBUG) {
+                    print("Success - Switch and Input are in the same state: ", res.state);
+                }
+                sendSuccess(res.state);
             }
         });
         }

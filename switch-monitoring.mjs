@@ -34,7 +34,7 @@ let CONFIG = {
     /**
      * Enable debug logging
      */
-    'DEBUG': true
+    'DEBUG': false
 };
 
 let desiredInputState = null;
